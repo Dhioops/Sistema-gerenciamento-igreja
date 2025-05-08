@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2 style="color: red;">Confirmar Exclusão</h2>
+    <p>Você tem certeza que deseja excluir a escala de culto para o dia <strong>{{ escala.data_culto|date:"d/m/Y" }}</strong>?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" style="padding: 10px 20px; margin-right: 10px;">Excluir</button>
+        <a href="{% url 'listar_escala' %}" class="btn btn-secondary" style="padding: 10px 20px;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

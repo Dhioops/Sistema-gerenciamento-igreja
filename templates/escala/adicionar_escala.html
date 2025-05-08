@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Adicionar Escala de Culto</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+    <br>
+    <a href="{% url 'listar_escala' %}">Voltar para a lista de escalas</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script>
+        $(document).ready(function(){
+            // Selecionando os campos de "louvor", "historia_criancas", "recepcao", "media", "sonoplastia"
+            $('select[data-autocomplete="true"]').each(function(){
+                var field = $(this);
+
+                field.autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "{% url 'buscar_membros' %}",  // Definido no seu urls.py
+                            data: { term: request.term },  // Envia o termo de busca
+                            success: function(data) {
+                                response(data);  // Exibe as sugestões
+                            }
+                        });
+                    },
+                    minLength: 2,  // Inicia a busca depois de 2 caracteres digitados
+                    select: function(event, ui) {
+                        field.val(ui.item.value);  // Preenche o campo com o nome escolhido
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

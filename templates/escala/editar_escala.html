@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Escala de Culto{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2>Editar Escala de Culto</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success" style="padding: 10px 20px;">Salvar Alterações</button>
+        <a href="{% url 'listar_escala' %}" class="btn btn-secondary" style="padding: 10px 20px; margin-left: 10px;">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

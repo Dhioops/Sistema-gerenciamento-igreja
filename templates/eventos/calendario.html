@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="mb-4">Calendário de Eventos</h2>
+  <div id="calendar"></div>
+{% endblock %}
+
+{% block extra_js %}
+  <!-- FullCalendar CSS -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+  <!-- FullCalendar JS -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/locales/pt-br.js'></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'pt-br',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: function(info, successCallback, failureCallback) {
+          fetch("{% url 'eventos_json' %}")  // Use a URL gerada dinamicamente
+            .then(response => response.json())
+            .then(data => successCallback(data))
+            .catch(error => failureCallback(error));
+        },
+        eventClick: function(info) {
+          info.jsEvent.preventDefault(); // Evita abrir link direto
+          if (info.event.url) {
+            window.location.href = info.event.url;
+          }
+        }
+      });
+      calendar.render();
+    });
+  </script>
+{% endblock %}

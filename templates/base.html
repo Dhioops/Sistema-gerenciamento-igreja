@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}App Igreja{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Cabeçalho e menu de navegação -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'inicio' %}">Início</a></li>  <!-- Link para a página inicial -->
+                <li><a href="{% url 'listar_escala' %}">Escalas</a></li>
+                <li><a href="{% url 'eventos:lista_eventos' %}">Eventos</a></li>
+                <li><a href="{% url 'lista_membros' %}">Membros</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Exibindo mensagens de sucesso ou erro -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Área de conteúdo específica das páginas -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2025 Igreja XYZ</p>
+    </footer>
+
+    {% block extra_scripts %}
+    {% endblock %}
+</body>
+</html>
